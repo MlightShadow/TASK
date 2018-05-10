@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ChengweiXu@LangChao">
+    <title>@ViewBag.Title</title>
+
+    <link rel="shortcut icon" href="~/Content/images/gt_favicon.png">
+
+    @Styles.Render("~/Comm/css")
+    <link rel="stylesheet" href="~/Assets/css/font-awesome.css">
+    @RenderSection("styles", required: false)
+    <style>
+        a:link, a:visited {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body class="home">
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top headroom" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <!-- Button for smallest screens -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                    @ViewBag.Title
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li><a href="@Url.Action("Index","Home")">首页</a></li>
+                    <li><a href="@Url.Action("Index","Login")">登出: @ViewBag.nick_name</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    @*<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+        <div class="navbar-header">
+        </div>
+    </nav>*@
+    <!-- /.navbar -->
+    @RenderBody()
+
+    <footer class="footer_secondary"></footer>
+    <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+    @Scripts.Render("~/Comm/js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

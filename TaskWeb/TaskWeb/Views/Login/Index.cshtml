@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+    Dictionary<string, string> dict = ViewBag.LoginType as Dictionary<string, string>;
+}
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ChengweiXu@LangChao">
+    <title>登录</title>
+
+    <link rel="shortcut icon" href="~/Content/images/gt_favicon.png">
+    @Styles.Render("~/Comm/css")
+    <link rel="stylesheet" href="~/Assets/css/font-awesome.css">
+    <style>
+        a:link, a:visited {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body class="home">
+
+    <br/>
+    <div class="container">
+        <header id="head" class="secondary"></header>
+        <div class="row">
+
+            <!-- Article main content -->
+            <article class="col-xs-12 maincontent">
+
+                <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3 class="thin text-center"><span style="color:purple"><i class="fa fa-flag fa-2x"></i></span>立了个Flag</h3>
+                            <hr />
+                            <form role="form" action="@Url.Action("Login","Login")" method="post">
+                                <div class="top-margin">
+                                    <label>flag帐号</label>
+                                    <input type="text" class="form-control" placeholder="请输入你的flag帐号" id="txtUserName" name="username">
+                                </div>
+                                <div class="top-margin">
+                                    <label>密码</label>
+                                    <input type="password" class="form-control" placeholder="请输入密码" id="txtPassword" name="password">
+                                </div>
+                                <hr />
+                                <div class="row text-center">
+                                    <button class="btn btn-action" onclick="customSubmit();">开始搞事</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </article>
+            <!-- /Article -->
+
+        </div>
+    </div>	<!-- /container -->
+    <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+    @Scripts.Render("~/Comm/js")
+    <script>
+        var ErrorMsg = "@(ViewBag.ErrorMsg == null || ViewBag.ErrorMsg == "" ? "" : ViewBag.ErrorMsg)";
+
+        $(function () {
+            ddlAccountTypeId = getCookie('ddlAccountType')
+            if (ddlAccountTypeId != null && ddlAccountTypeId != "") {
+                $("#ddlAccountType").val(ddlAccountTypeId)
+            }
+            
+            if (ErrorMsg != "") {
+                alert(ErrorMsg);
+            }
+            $("#txtUserName").focus();
+        });
+
+        function customSubmit() {
+            ddlAccountTypeId = $("#ddlAccountType").val()
+            if (ddlAccountTypeId != null && ddlAccountTypeId != "") {
+                setCookie('ddlAccountType', ddlAccountTypeId, 365)
+            }
+
+            $('form').submit();
+        }
+    </script>
+
+</body>
+</html>

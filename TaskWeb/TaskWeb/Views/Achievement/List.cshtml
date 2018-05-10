@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "成就列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<header id="head" class="secondary"></header>
+<div class="container">
+    <div id="divProductList"></div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">详情信息</h4>
+            </div>
+            <div class="modal-body">
+                编号:<span id="modalNo"></span>
+                <br />成就名称:<span id="modalName"></span>
+                <br />规格:<span id="modalStandard"></span>
+                <br />单位:<span id="modalUnit"></span>
+                <br />订单数量:<span id="modalOrderNum"></span>
+                <br />累计入库:<span id="modalCountInput"></span>
+                <br />本次入库:<span id="modalCurrentInput"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">删除</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+@section scripts{
+    <script>
+        function itemDetail(obj) {
+            $("#modalNo").text(obj.No);
+            $("#modalName").text(obj.name);
+            $("#modalStandard").text(obj.standard);
+            $("#modalUnit").text(obj.unit);
+            $("#modalOrderNum").text(obj.orderNum);
+            $("#modalCountInput").text(obj.countInput);
+            $("#modalCurrentInput").text(obj.currentInput);
+
+            $('#myModal').modal('show');
+        }
+
+        $(function () {
+            $.ajax({
+                type: 'post',
+                url: "@Url.Action("DoGetList")",
+                dataType: 'json',
+                data: {
+                },
+                success: function (json) {
+                    if (json.length > 0) {
+                        var html = "";
+                        for (var i in json) {
+                            html += '<div class="repositoryList" data-id ="' + json[i].id + '">'
+                                + '<div class="panel panel-default">'
+                                + '<div class="panel-heading">'
+                                + json[i].title
+                                + '</div>'
+                                + '<div class="panel-body">'
+                                + '描述: ' + json[i].content
+                                + '</div>'
+                                + '</div>'
+                                + '</div>';
+                        }
+                        $("#divProductList").empty().append(html);
+                        obj.html('确认').attr('has-click', '0');
+                    } else {
+                        //出错
+                        obj.html('确认').attr('has-click', '0');
+                    }
+                }
+            });
+        });
+    </script>
+}
