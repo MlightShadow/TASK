@@ -24,35 +24,43 @@
     </style>
 </head>
 <body class="home">
-    <br/>
+    <br />
     <div class="container">
         <header id="head" class="secondary"></header>
         <div class="row">
+
             <!-- Article main content -->
             <article class="col-xs-12 maincontent">
+
                 <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <h3 class="thin text-center"><span style="color:purple"><i class="fa fa-flag fa-2x"></i></span>立了个Flag</h3>
-                            <p class="thin text-center">还没有帐号? 赶紧<a href="@Url.Action("Register","Login")">注册</a>开始搞事</p>
+                            <h3 class="thin text-center"><span style="color:purple"><i class="fa fa-flag fa-2x"></i></span>注册Flag帐号</h3>
+                            <p class="thin text-center">已有帐号? 直接<a href="@Url.Action("Index","Login")">登录</a>开始搞事</p>
                             <hr />
                             <form>
                                 <div class="top-margin">
                                     <label>flag帐号</label>
-                                    <input type="text" class="form-control" placeholder="请输入你的flag帐号" id="txtUserName">
+                                    <input type="text" class="form-control" placeholder="输入账号名" id="txtUserName">
                                 </div>
                                 <div class="top-margin">
                                     <label>密码</label>
                                     <input type="password" class="form-control" placeholder="请输入密码" id="txtPassword">
                                 </div>
+                                <div class="top-margin">
+                                    <label>再次确认</label>
+                                    <input type="password" class="form-control" placeholder="请再次输入密码" id="txtPassword2">
+                                </div>
                                 <hr />
                                 <div class="row text-center">
-                                    <a class="btn btn-action" id="btnLogin">开始搞事</a>
+                                    <a class="btn btn-action" id="btnRegister">注册后开始搞事</a>
                                 </div>
                             </form>
                         </div>
                     </div>
+
                 </div>
+
             </article>
             <!-- /Article -->
 
@@ -64,8 +72,30 @@
         $(function () {
             $("#txtUserName").focus();
 
-            
-            $('#btnLogin').click(function () {
+            //名称检查
+            $('#txtUserName').blur(function () {
+                var username = $(this).val();
+                if (username != "") {
+                    $.ajax({
+                        type: 'post',
+                        url: "@Url.Action("CheckUserNameExist")",
+                        dataType: 'json',
+                        data: {
+                            username: username
+                        },
+                        success: function (json) {
+                            if (json.res == "1") {
+                                alert('名称可以使用')
+                            } else {
+                                //提交失败请重试
+                                alert('名称已被注册');
+                            }
+                        }
+                    });
+                }
+            })
+
+            $('#btnRegister').click(function () {
                 var obj = $(this);
                 var has_click = obj.attr('has-click');
                 if (has_click == '1') {
@@ -75,37 +105,50 @@
 
                 var username = $('#txtUserName').val();
                 var password = $('#txtPassword').val();
+                var password2 = $('#txtPassword2').val();
                 
                 if (username == "") {
-                    alert('请填写帐号');
+                    alert('必须填写用户名');
                     $('#txtUserName').focus();
+                    return;
+                }
+                if (password != password2) {
+                    alert('两次密码输入不一致');
+                    $('#txtPassword2').focus();
                     return;
                 }
                 
                 $.ajax({
                     type: 'post',
-                    url: "@Url.Action("Login")",
+                    url: "@Url.Action("DoRegister")",
                     dataType: 'json',
                     data: {
                         username: username,
                         password: password
                     },
                     beforeSend: function () {
-                        obj.html('正在登录...');
+                        obj.html('正在注册...');
                     }, success: function (json) {
                         if (json.res == "1") {
                             //成功
-                            window.location.href = "@Url.Action("Index", "Home")";
+                            alert('注册成功');
+                            window.location.href = "@Url.Action("Index")";
+                            //跳转画面
                         } else {
                             //提交失败请重试
-                            alert('登录失败');
-                            obj.html('重新尝试登录').attr('has-click', '0');
+                            alert('注册失败请重试');
+                            obj.html('重新尝试注册').attr('has-click', '0');
                         }
                     }
                 });
             });
 
         });
+
+
+
+
+
 
     </script>
 

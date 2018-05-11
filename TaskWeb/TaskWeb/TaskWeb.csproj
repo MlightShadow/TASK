@@ -158,9 +158,9 @@
     </Compile>
     <Compile Include="Manager\AchievementManager.cs" />
     <Compile Include="Manager\BaseManager.cs" />
+    <Compile Include="Manager\ResultManager.cs" />
     <Compile Include="Manager\UserManager.cs" />
     <Compile Include="Models\AchievementDto.cs" />
-    <Compile Include="Models\JRes.cs" />
     <Compile Include="Models\ListByPage.cs" />
     <Compile Include="Models\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -221,6 +221,7 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Achievement\Add.cshtml" />
+    <Content Include="Views\Login\Register.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

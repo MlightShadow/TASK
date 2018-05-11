@@ -12,6 +12,7 @@ namespace TaskWeb.Controllers
     public class AchievementController : BaseController
     {
         AchievementManager achievementManager = new AchievementManager();
+        ResultManager resultManager = new ResultManager();
 
         public ActionResult List()
         {
@@ -41,17 +42,9 @@ namespace TaskWeb.Controllers
         /// <returns></returns>
         public JsonResult DoAdd(AchievementDto dto)
         {
-            JRes jres = new JRes();
             dto.creator = TaskWebSession.id;
-            if (achievementManager.AddAchievement(dto)) {
-                jres.res = 1;
-            }
-            else
-            {
-                jres.res = -1;
-            }
-            jsonResult.Data = jres;
-            return jsonResult;
+            return achievementManager.AddAchievement(dto) ?
+                resultManager.SuccessResult() : resultManager.FailureResult();
         }
     }
 }

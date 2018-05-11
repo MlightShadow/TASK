@@ -24,44 +24,44 @@
 @section scripts{
     <script>
         //执行确认
-            $('#btnDoAdd').click(function () {
-                var title = $('#txtTitle').val();
-                var content = $('#txtContent').val();
-                if (title == "" || content == "") {
-                    alert('请将Flag和描述填写完整');
-                    $('#txtCodeBar').focus();
-                    return;
-                }
+        $('#btnDoAdd').click(function () {
+            var title = $('#txtTitle').val();
+            var content = $('#txtContent').val();
+            if (title == "" || content == "") {
+                alert('请将Flag和描述填写完整');
+                $('#txtCodeBar').focus();
+                return;
+            }
 
-                var obj = $(this);
-                var has_click = obj.attr('has-click');
-                if (has_click == '1') {
-                    return;
-                }
-                obj.attr('has-click', '1');
-                $.ajax({
-                    type: 'post',
-                    url: "@Url.Action("DoAdd")",
-                    dataType: 'json',
-                    data: {
-                        title: title,
-                        content: content
-                    },
-                    beforeSend: function () {
-                        obj.html('正在提交...');
-                    }, success: function (json) {
-                        if (json.res == "1") {
-                            //成功
-                            alert('提交成功');
-                            window.location.href = "@Url.Action("List")";
-                            //跳转画面
-                        } else {
-                            //提交失败请重试
-                            alert('提交失败请重试');
-                            obj.html('重新发起投票').attr('has-click', '0');
-                        }
+            var obj = $(this);
+            var has_click = obj.attr('has-click');
+            if (has_click == '1') {
+                return;
+            }
+            obj.attr('has-click', '1');
+            $.ajax({
+                type: 'post',
+                url: "@Url.Action("DoAdd")",
+                dataType: 'json',
+                data: {
+                    title: title,
+                    content: content
+                },
+                beforeSend: function () {
+                    obj.html('正在提交...');
+                }, success: function (json) {
+                    if (json.res == "1") {
+                        //成功
+                        alert('提交成功');
+                        window.location.href = "@Url.Action("List")";
+                        //跳转画面
+                    } else {
+                        //提交失败请重试
+                        alert('提交失败请重试');
+                        obj.html('重新发起投票').attr('has-click', '0');
                     }
-                });
+                }
             });
+        });
     </script>
 }
