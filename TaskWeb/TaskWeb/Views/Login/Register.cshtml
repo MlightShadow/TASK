@@ -74,7 +74,7 @@
 
             //名称检查
             $('#txtUserName').blur(function () {
-                var username = $(this).val();
+                var username = $(this).val().trim();
                 if (username != "") {
                     $.ajax({
                         type: 'post',
@@ -96,17 +96,10 @@
             })
 
             $('#btnRegister').click(function () {
-                var obj = $(this);
-                var has_click = obj.attr('has-click');
-                if (has_click == '1') {
-                    return;
-                }
-                obj.attr('has-click', '1');
-
-                var username = $('#txtUserName').val();
+                var username = $('#txtUserName').val().trim();
                 var password = $('#txtPassword').val();
                 var password2 = $('#txtPassword2').val();
-                
+
                 if (username == "") {
                     alert('必须填写用户名');
                     $('#txtUserName').focus();
@@ -117,6 +110,13 @@
                     $('#txtPassword2').focus();
                     return;
                 }
+
+                var obj = $(this);
+                var has_click = obj.attr('has-click');
+                if (has_click == '1') {
+                    return;
+                }
+                obj.attr('has-click', '1');
                 
                 $.ajax({
                     type: 'post',

@@ -63,15 +63,8 @@
     <script>
         $(function () {
             $("#txtUserName").focus();
-
             
             $('#btnLogin').click(function () {
-                var obj = $(this);
-                var has_click = obj.attr('has-click');
-                if (has_click == '1') {
-                    return;
-                }
-                obj.attr('has-click', '1');
 
                 var username = $('#txtUserName').val();
                 var password = $('#txtPassword').val();
@@ -81,6 +74,13 @@
                     $('#txtUserName').focus();
                     return;
                 }
+
+                var obj = $(this);
+                var has_click = obj.attr('has-click');
+                if (has_click == '1') {
+                    return;
+                }
+                obj.attr('has-click', '1');
                 
                 $.ajax({
                     type: 'post',

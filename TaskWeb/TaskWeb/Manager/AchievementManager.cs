@@ -22,7 +22,7 @@ namespace TaskWeb.Manager
                         tb_achievement.create_time,
                         tb_achievement.pass_time
                         FROM
-                        tb_achievement
+                        tb_achievement order by id desc
                         ";
             return DBAgent.SQLExecuteReturnList<AchievementDto>(param);
         }

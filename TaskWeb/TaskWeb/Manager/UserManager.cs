@@ -69,5 +69,22 @@ namespace TaskWeb.Manager
             }
             return false;
         }
+
+        /// <summary>
+        /// 修改用户昵称
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool ModifyUserInfo(UserDto user) {
+            SQLExecuteParam param = new SQLExecuteParam();
+            param.obj = user;
+            param.sql = "update tb_user set nick_name = @nick_name where id = @id ";
+            if (DBAgent.SQLExecuteReturnRows(param) == 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

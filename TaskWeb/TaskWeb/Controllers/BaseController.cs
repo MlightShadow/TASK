@@ -43,7 +43,7 @@ namespace TaskWeb.Controllers
             base.OnActionExecuted(filterContext);
             if(TaskWebSession != null){
                 ViewBag.username = TaskWebSession.user_name;
-                ViewBag.nick_name = TaskWebSession.nick_name;
+                ViewBag.nick_name = TaskWebSession.nick_name == null? TaskWebSession.user_name : TaskWebSession.nick_name;
             }
         }
         

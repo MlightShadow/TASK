@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = ViewBag.nick_name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header id="head" class="secondary"></header>
+<div class="container">
+    <form role="form">
+        <div class="form-group">
+            <label>昵称</label>
+            <input type="text" class="form-control" id="txtNickName" placeholder="昵称不是帐号, 下次登录不用用错">
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" id="btnDoAdd" class="btn btn-info form-control">修改昵称</button>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        //执行确认
+        $('#btnDoAdd').click(function () {
+            var nickname = $('#txtNickName').val();
+            if (nickname.trim() == "") {
+                alert('不能叫 哦');
+                $('#txtNickName').focus();
+                return;
+            }
+
+            var obj = $(this);
+            var has_click = obj.attr('has-click');
+            if (has_click == '1') {
+                return;
+            }
+            obj.attr('has-click', '1');
+            $.ajax({
+                type: 'post',
+                url: "@Url.Action("ModifyInfo")",
+                dataType: 'json',
+                data: {
+                    nickname: nickname
+                },
+                beforeSend: function () {
+                    obj.html('正在修改...');
+                }, success: function (json) {
+                    if (json.res == "1") {
+                        //成功
+                        alert('修改成功了');
+                        window.location.href = "@Url.Action("Index", "Home")";
+                        //跳转画面
+                    } else {
+                        //提交失败请重试
+                        alert('修改失败了, 擦');
+                        obj.html('重新尝试修改').attr('has-click', '0');
+                    }
+                }
+            });
+        });
+    </script>
+}
