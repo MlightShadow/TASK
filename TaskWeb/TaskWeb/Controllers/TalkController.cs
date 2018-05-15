@@ -16,7 +16,7 @@ namespace TaskWeb.Controllers
     public class TalkController : ApiController
     {
         private static List<WebSocket> _sockets = new List<WebSocket>();
-        
+
         [HttpGet]
         public HttpResponseMessage Connect()
         {
@@ -30,33 +30,48 @@ namespace TaskWeb.Controllers
         {
             var socket = context.WebSocket;//传入的context中有当前的web socket对象
             _sockets.Add(socket);//此处将web socket对象加入一个静态列表中
-
-            //进入一个无限循环，当web socket close是循环结束
-            while (true)
+            try
             {
-                var buffer = new ArraySegment<byte>(new byte[1024]);
-                var receivedResult = await socket.ReceiveAsync(buffer, CancellationToken.None);//对web socket进行异步接收数据
-                if (receivedResult.MessageType == WebSocketMessageType.Close)
+                //进入一个无限循环，当web socket close是循环结束
+                while (true)
                 {
-                    await socket.CloseAsync(WebSocketCloseStatus.Empty, string.Empty, CancellationToken.None);//如果client发起close请求，对client进行ack
-                    _sockets.Remove(socket);
-                    break;
-                }
-
-                if (socket.State == WebSocketState.Open)
-                {
-                    string recvMsg = Encoding.UTF8.GetString(buffer.Array, 0, receivedResult.Count);
-                    var recvBytes = Encoding.UTF8.GetBytes(recvMsg);
-                    var sendBuffer = new ArraySegment<byte>(recvBytes);
-                    foreach (var innerSocket in _sockets)//当接收到文本消息时，对当前服务器上所有web socket连接进行广播
+                    var buffer = new ArraySegment<byte>(new byte[1024]);
+                    var receivedResult = await socket.ReceiveAsync(buffer, CancellationToken.None);//对web socket进行异步接收数据
+                    if (receivedResult.MessageType == WebSocketMessageType.Close)
                     {
-                        if (innerSocket != socket)
+                        await socket.CloseAsync(WebSocketCloseStatus.Empty, string.Empty, CancellationToken.None);//如果client发起close请求，对client进行ack
+                        _sockets.Remove(socket);
+                        break;
+                    }
+
+                    if (socket.State == WebSocketState.Open)
+                    {
+                        string recvMsg = Encoding.UTF8.GetString(buffer.Array, 0, receivedResult.Count);
+                        var recvBytes = Encoding.UTF8.GetBytes(recvMsg);
+                        var sendBuffer = new ArraySegment<byte>(recvBytes);
+                        foreach (var innerSocket in _sockets)//当接收到文本消息时，对当前服务器上所有web socket连接进行广播
                         {
-                            await innerSocket.SendAsync(sendBuffer, WebSocketMessageType.Text, true, CancellationToken.None);
+                            try
+                            {
+                                if (innerSocket != socket)
+                                {
+                                    await innerSocket.SendAsync(sendBuffer, WebSocketMessageType.Text, true, CancellationToken.None);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                if (_sockets.Contains(innerSocket)) _sockets.Remove(innerSocket);
+                            }
                         }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                //整体异常处理
+                if (_sockets.Contains(socket)) _sockets.Remove(socket);
+            }
         }
+
     }
 }
