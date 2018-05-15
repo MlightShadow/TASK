@@ -1,0 +1,98 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ChengweiXu@SampleStudio">
+    <title>匿名搞事</title>
+
+    <link rel="shortcut icon" href="~/Content/images/gt_favicon.png">
+    @Styles.Render("~/Comm/css")
+    <link rel="stylesheet" href="~/Assets/css/font-awesome.css">
+    <style>
+        a:link, a:visited {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body class="home">
+    <br />
+    <div class="container">
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top headroom" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <!-- Button for smallest screens -->
+                    <a class="navbar-brand">
+                        <span style="color:darkgrey"><i class="fa fa-key"></i></span>匿名搞事
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <header id="head" class="secondary"></header>
+        <div class="row">
+            <!-- Article main content -->
+            <article class="col-xs-12 maincontent">
+                
+            </article>
+
+            <!-- /Article -->
+            <!-- Fixed navbar -->
+
+            <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+
+                <div class="navbar-header">
+                    <div class="navbar-brand">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="请输入消息" id="txtMsg">
+                            <span class="input-group-btn">
+                                <a class="btn btn-sm btn-success form-control" id="btnLogin" onclick="webSocket.send($('#txtMsg').val()); showMsg('我说:' + $('#txtMsg').val()); $('#txtMsg').val('');">发送</a>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <footer class="footer_secondary"></footer>
+
+    <br />
+
+    <!-- /container -->
+    <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+    @Scripts.Render("~/Comm/js")
+    <script>
+        var webSocket = new WebSocket('ws://' + window.location.host + '/api/Talk');
+
+        webSocket.onopen = function () {
+            showMsg('已连接到匿名搞事')
+        }
+        webSocket.onerror = function () {
+            showMsg('发生错误')
+        }
+
+        webSocket.onmessage = function (event) {
+            showMsg('有人说:' + event.data)
+        }
+
+        self.webSocket.onclose = function () { showMsg('已断开')}
+
+        function showMsg(msg) {
+            $('article').append(msg + '<br/>')
+        }
+
+    </script>
+
+</body>
+</html>

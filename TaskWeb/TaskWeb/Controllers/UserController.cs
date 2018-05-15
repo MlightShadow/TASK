@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TaskWeb.Manager;
 
 namespace TaskWeb.Controllers
@@ -16,7 +12,18 @@ namespace TaskWeb.Controllers
             return View();
         }
 
-        public JsonResult ModifyInfo(string  nickname) {
+        public ActionResult List()
+        {
+            return View();
+        }
+        
+        public JsonResult GetUserList()
+        {
+            jsonResult.Data = userManager.GetUserList();
+            return jsonResult;
+        }
+
+        public JsonResult ModifyInfo(string  nickname, string bio, string pic) {
             TaskWebSession.nick_name = nickname;
             if (userManager.ModifyUserInfo(TaskWebSession)) {
                 //刷新session

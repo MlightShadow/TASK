@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "用户列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<header id="head" class="secondary"></header>
+<div class="container">
+    <div id="divProductList"></div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $.ajax({
+                type: 'post',
+                url: "@Url.Action("GetUserList")",
+                dataType: 'json',
+                data: {
+                },
+                success: function (json) {
+                    if (json.length > 0) {
+                        var html = "";
+                        for (var i in json) {
+                            html += '<div class="repositoryList" data-id ="' + json[i].id + '">'
+                                + '<div class="panel panel-default">'
+                                + '<div class="panel-heading">'
+                                + (json[i].nick_name == null || json[i].nick_name == '' ? json[i].user_name : json[i].nick_name)
+                                + '</div>'
+                                + '<div class="panel-body">'
+                                + json[i].bio
+                                + '</div>'
+                                + '</div>'
+                                + '</div>';
+                        }
+                        $("#divProductList").empty().append(html);
+                        obj.html('确认').attr('has-click', '0');
+                    } else {
+                        //出错
+                        obj.html('确认').attr('has-click', '0');
+                    }
+                }
+            });
+        });
+    </script>
+}

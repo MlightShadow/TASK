@@ -1,4 +1,5 @@
-﻿using TaskWeb.Models;
+﻿using System.Collections.Generic;
+using TaskWeb.Models;
 using TaskWeb.Utils;
 
 namespace TaskWeb.Manager
@@ -84,6 +85,19 @@ namespace TaskWeb.Manager
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <returns></returns>
+        public List<UserDto> GetUserList()
+        {
+            SQLExecuteParam param = new SQLExecuteParam();
+            param.sql = @"
+                        select * from tb_user order by id desc
+                        ";
+            return DBAgent.SQLExecuteReturnList<UserDto>(param);
         }
 
     }

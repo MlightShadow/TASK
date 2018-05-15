@@ -20,6 +20,11 @@ namespace TaskWeb.Controllers
             return View();
         }
 
+        public ActionResult Chat()
+        {
+            return View();
+        }
+
         /// <summary>
         /// 登录
         /// </summary>
