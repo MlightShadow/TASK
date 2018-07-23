@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TaskWeb.Models
+namespace TaskWeb.Entitys
 {
     public class ListByPage<T> where T : new()
     {

@@ -1,11 +1,11 @@
-﻿using TaskWeb.Models;
+﻿using TaskWeb.Entitys;
 using TaskWeb.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TaskWeb.Manager;
+using TaskWeb.Models;
 
 namespace TaskWeb.Controllers
 {

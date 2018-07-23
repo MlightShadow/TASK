@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using TaskWeb.Models;
+using TaskWeb.Entitys;
 using TaskWeb.Utils;
 
-namespace TaskWeb.Manager
+namespace TaskWeb.Models
 {
     public class UserManager : BaseManager
     {

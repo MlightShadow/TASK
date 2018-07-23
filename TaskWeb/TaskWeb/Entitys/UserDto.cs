@@ -1,5 +1,5 @@
 ﻿
-namespace TaskWeb.Models
+namespace TaskWeb.Entitys
 {
     public class UserDto
     {

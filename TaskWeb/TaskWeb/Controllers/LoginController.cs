@@ -1,6 +1,6 @@
-﻿using TaskWeb.Models;
+﻿using TaskWeb.Entitys;
 using System.Web.Mvc;
-using TaskWeb.Manager;
+using TaskWeb.Models;
 
 namespace TaskWeb.Controllers
 {

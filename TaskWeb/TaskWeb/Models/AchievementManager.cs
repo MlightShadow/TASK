@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TaskWeb.Models;
+using TaskWeb.Entitys;
 using TaskWeb.Utils;
 
-namespace TaskWeb.Manager
+namespace TaskWeb.Models
 {
     public class AchievementManager : BaseManager
     {

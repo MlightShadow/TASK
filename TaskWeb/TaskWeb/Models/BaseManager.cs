@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using TaskWeb.Utils;
 
-namespace TaskWeb.Manager
+namespace TaskWeb.Models
 {
     public class BaseManager
     {

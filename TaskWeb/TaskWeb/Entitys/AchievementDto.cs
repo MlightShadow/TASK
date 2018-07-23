@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaskWeb.Models
+namespace TaskWeb.Entitys
 {
     public class AchievementDto
     {
