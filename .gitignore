@@ -6,3 +6,5 @@ TaskWeb/TaskWeb/obj
 TaskWeb/TaskWeb/bin
 TaskWeb/TaskWeb/Log
 TaskWeb/TaskWeb/TaskWeb.csproj.user
+TaskWeb/DBAgent/bin
+TaskWeb/DBAgent/obj
