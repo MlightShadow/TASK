@@ -2,9 +2,14 @@
 TaskWeb/.vs
 TaskWeb/packages
 TaskWeb/TaskWeb/Properties
+TaskWeb/TaskAPI/Properties
 TaskWeb/TaskWeb/obj
 TaskWeb/TaskWeb/bin
 TaskWeb/TaskWeb/Log
 TaskWeb/TaskWeb/TaskWeb.csproj.user
 TaskWeb/DBAgent/bin
 TaskWeb/DBAgent/obj
+TaskWeb/SampleUtils/bin
+TaskWeb/SampleUtils/obj
+TaskWeb/TaskAPI/bin
+TaskWeb/TaskAPI/obj

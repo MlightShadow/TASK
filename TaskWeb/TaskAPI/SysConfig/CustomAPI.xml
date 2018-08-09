@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<SQL>
+  <Index>
+    <![CDATA[
+        SELECT
+	        *
+        FROM uf_news_notice
+        ORDER BY fbtime DESC
+    ]]>
+  </Index>
+
+  <List>
+    <![CDATA[
+        SELECT
+	        ROW_NUMBER() OVER (
+	        ORDER BY fbtime DESC) AS rowNo,
+	        *
+        FROM uf_news_notice WHERE category = @category
+    ]]>
+  </List>
+
+  <Detail>
+    <![CDATA[
+        DECLARE @no int
+        
+        SELECT
+	        @no = CONVERT(int, [no])
+        FROM uf_news_notice
+        WHERE id = @id
+        
+        SELECT
+	        *
+        FROM uf_news_notice
+        WHERE CONVERT(int, [no]) IN (@no + 1, @no, @no - 1)
+        ORDER BY no DESC
+    ]]>
+  </Detail>
+
+  <Category>
+    <![CDATA[
+        SELECT '4028817a63b416a40163f1909b934ca2' AS id,
+                '新闻动态' AS name
+    ]]>
+  </Category>
+</SQL>

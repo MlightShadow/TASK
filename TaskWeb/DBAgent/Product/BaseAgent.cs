@@ -7,12 +7,13 @@ using System.Linq;
 using Dapper;
 
 using DBAgent.Entity;
-using DBAgent.Utils;
+using DBAgent.Adapter;
 
 namespace DBAgent.Product
 {
     internal class BaseAgent
     {
+        protected UtilFactory utils = new UtilFactory();
         protected IDbConnection connection = null;
         protected string connStr = null;
 
@@ -49,7 +50,7 @@ namespace DBAgent.Product
             catch (Exception ex)
             {
                 connection.Close();
-                Log.WriteLog(ex.Message);
+                utils.GetLogUtil().WriteLog(ex.Message);
                 return false;
             }
             return true;
@@ -79,7 +80,7 @@ namespace DBAgent.Product
             catch (Exception ex)
             {
                 connection.Close();
-                Log.WriteLog(ex.Message);
+                utils.GetLogUtil().WriteLog(ex.Message);
                 return default(T);
             }
             return t;
@@ -135,7 +136,7 @@ namespace DBAgent.Product
             catch (Exception ex)
             {
                 connection.Close();
-                Log.WriteLog(ex.Message);
+                utils.GetLogUtil().WriteLog(ex.Message);
                 return null;
             }
             return dt;
@@ -170,7 +171,7 @@ namespace DBAgent.Product
             catch (Exception ex)
             {
                 connection.Close();
-                Log.WriteLog(ex.Message);
+                utils.GetLogUtil().WriteLog(ex.Message);
                 return -1;
             }
             return rows;
@@ -205,7 +206,7 @@ namespace DBAgent.Product
             catch (Exception ex)
             {
                 connection.Close();
-                Log.WriteLog(ex.Message);
+                utils.GetLogUtil().WriteLog(ex.Message);
                 return null;
             }
             return list;
@@ -269,7 +270,7 @@ namespace DBAgent.Product
             catch (Exception ex)
             {
                 connection.Close();
-                Log.WriteLog(ex.Message);
+                utils.GetLogUtil().WriteLog(ex.Message);
                 return null;
             }
             return pResult;

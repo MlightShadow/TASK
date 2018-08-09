@@ -1,23 +1,22 @@
 ﻿using System;
 using System.IO;
 
-namespace DBAgent.Utils
+namespace SampleUtils.LogUtils
 {
-    internal static class Log
+    public class LogHelper
     {
         /// <summary>
         /// 写log方法
         /// </summary>
         /// <param name="str">log内容</param>
-        public static void WriteLog(string str)
+        public void WriteLog(string str, string filePath, string fileName)
         {
-            string filePath = AppDomain.CurrentDomain.BaseDirectory + "DBAgentLog\\" + DateTime.Today.Date.ToString("yyyy") + "\\" + DateTime.Today.Date.ToString("MM");
             StreamWriter sw = null;
             if (!Directory.Exists(filePath))
             {
                 Directory.CreateDirectory(filePath);
             }
-            filePath += "\\" + DateTime.Today.Date.ToString("dd") + "Log.txt";
+            filePath += "\\" + fileName;
             if (!File.Exists(filePath))
             {
                 sw = File.CreateText(filePath);
