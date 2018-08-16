@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using CustomAPI.Models;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using DBAgent.Entity;
 
 namespace CustomAPI.Controllers
 {

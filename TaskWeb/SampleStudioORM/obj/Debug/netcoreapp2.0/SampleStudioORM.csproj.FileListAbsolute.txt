@@ -1,0 +1,8 @@
+D:\GithubProject\TASK\TaskWeb\SampleStudioORM\bin\Debug\netcoreapp2.0\SampleStudioORM.deps.json
+D:\GithubProject\TASK\TaskWeb\SampleStudioORM\bin\Debug\netcoreapp2.0\SampleStudioORM.dll
+D:\GithubProject\TASK\TaskWeb\SampleStudioORM\bin\Debug\netcoreapp2.0\SampleStudioORM.pdb
+D:\GithubProject\TASK\TaskWeb\SampleStudioORM\obj\Debug\netcoreapp2.0\SampleStudioORM.csproj.CoreCompileInputs.cache
+D:\GithubProject\TASK\TaskWeb\SampleStudioORM\obj\Debug\netcoreapp2.0\SampleStudioORM.AssemblyInfoInputs.cache
+D:\GithubProject\TASK\TaskWeb\SampleStudioORM\obj\Debug\netcoreapp2.0\SampleStudioORM.AssemblyInfo.cs
+D:\GithubProject\TASK\TaskWeb\SampleStudioORM\obj\Debug\netcoreapp2.0\SampleStudioORM.dll
+D:\GithubProject\TASK\TaskWeb\SampleStudioORM\obj\Debug\netcoreapp2.0\SampleStudioORM.pdb

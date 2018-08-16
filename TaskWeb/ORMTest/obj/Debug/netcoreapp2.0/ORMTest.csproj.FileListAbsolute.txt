@@ -1,0 +1,17 @@
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\ORMTest.deps.json
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\ORMTest.runtimeconfig.json
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\ORMTest.runtimeconfig.dev.json
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\ORMTest.dll
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\ORMTest.pdb
+D:\GithubProject\TASK\TaskWeb\ORMTest\obj\Debug\netcoreapp2.0\ORMTest.csprojAssemblyReference.cache
+D:\GithubProject\TASK\TaskWeb\ORMTest\obj\Debug\netcoreapp2.0\ORMTest.csproj.CoreCompileInputs.cache
+D:\GithubProject\TASK\TaskWeb\ORMTest\obj\Debug\netcoreapp2.0\ORMTest.AssemblyInfoInputs.cache
+D:\GithubProject\TASK\TaskWeb\ORMTest\obj\Debug\netcoreapp2.0\ORMTest.AssemblyInfo.cs
+D:\GithubProject\TASK\TaskWeb\ORMTest\obj\Debug\netcoreapp2.0\ORMTest.dll
+D:\GithubProject\TASK\TaskWeb\ORMTest\obj\Debug\netcoreapp2.0\ORMTest.pdb
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\SampleStudioORM.dll
+D:\GithubProject\TASK\TaskWeb\ORMTest\bin\Debug\netcoreapp2.0\SampleStudioORM.pdb
+D:\GithubProject\TASK\TaskWeb\ORMTest\obj\Debug\netcoreapp2.0\ORMTest.csproj.CopyComplete
