@@ -5,6 +5,10 @@ TaskWeb/TaskWeb/Properties
 TaskWeb/TaskAPI/Properties
 TaskWeb/TaskWeb/obj
 TaskWeb/TaskWeb/bin
+TaskWeb/ORMTest/obj
+TaskWeb/ORMTest/bin
+TaskWeb/SampleStudioORM/obj
+TaskWeb/SampleStudioORM/bin
 TaskWeb/TaskWeb/Log
 TaskWeb/TaskWeb/TaskWeb.csproj.user
 TaskWeb/DBAgent/bin
