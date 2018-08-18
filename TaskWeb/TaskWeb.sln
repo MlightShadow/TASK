@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskAPI", "TaskAPI\TaskAPI.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleUtils", "SampleUtils\SampleUtils.csproj", "{7CEA29FF-8CBA-4A46-8DE7-69A6703E6699}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleStudioORM", "SampleStudioORM\SampleStudioORM.csproj", "{DAC403FC-911C-444A-9BFB-47AC2F580376}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleStudioORM", "SampleStudioORM\SampleStudioORM.csproj", "{DAC403FC-911C-444A-9BFB-47AC2F580376}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORMTest", "ORMTest\ORMTest.csproj", "{0D843569-2622-48F8-B130-C521DBE7E065}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ORMTest", "ORMTest\ORMTest.csproj", "{0D843569-2622-48F8-B130-C521DBE7E065}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
