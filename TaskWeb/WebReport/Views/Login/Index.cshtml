@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WR-登录</title>
+    @Styles.Render("~/base/css")
+    <script>if (window.top !== window.self) { window.top.location = window.location; }</script>
+
+</head>
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">WR</h1>
+                <h2>报表查询</h2>
+            </div>
+            <div class="form-group">
+                <input type="text" id="txtName" class="form-control" placeholder="用户名" value="" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="txtPassword" class="form-control" placeholder="密码" required>
+            </div>
+            <div class="form-group input-group">
+                <input type="text" id="Txtidcode" class="form-control txtVerification" placeholder="验证码">
+                <span id="idcode" class="input-group-addon"></span>
+            </div>
+            <div class="form-group">
+                <a id="btnLogin" class="btn btn-primary block full-width m-b">登 录</a>
+            </div>
+            <p class="text-muted text-center">
+                @*<a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a>*@
+            </p>
+        </div>
+    </div>
+    <!-- 全局js -->
+    @Scripts.Render("~/base/js")
+    <script src="~/Assets/idcode/jquery.idcode.js"></script>
+    <script>
+        document.onkeydown = function (e) {
+            var ev = document.all ? window.event : e;
+            if (ev.keyCode == 13) {
+                DoLogin();
+            }
+        }
+
+        $(function () {
+            $.idcode.setCode();
+            $('#btnLogin').click(DoLogin);
+        });
+
+        function DoLogin() {
+            var IsBy = $.idcode.validateCode()  //调用返回值，返回值结果为true或者false
+            if (IsBy) {
+                Postor.Post(
+                    '@Url.Action("DoLogin", "Login")',
+                    {
+                        name: $('#txtName').val(),
+                        password: $('#txtPassword').val()
+                    },
+                    function (res) {
+                        if (res.res === 1) {
+                            window.location.href = '@Url.Action("Index", "Home")';
+                        } else {
+                            alert(res.msg);
+                        }
+                    }
+                );
+            } else {
+                alert("验证码输入错误")
+            }
+        }
+    </script>
+</body>
+</html>

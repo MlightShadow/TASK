@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutInner.cshtml";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd">
+                    <input class="form-control" id="txtBeginTime" type="text" placeholder="开始时间" readonly>
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd">
+                    <input class="form-control" id="txtEndTime" type="text" placeholder="结束时间" readonly>
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <a class="btn btn-primary" onclick="RefreshTable();">查询</a>
+                <a class="btn btn-warning" onclick="ExportTable();">导出</a>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table id="tbIndex"></table>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Assets/js/jquery.jqprint-0.3.js"></script>
+    <script>
+        function getSearchParam() {
+            return {
+                queryDate: $('#txtBeginTime').val().trim()
+            }
+        }
+
+        function ExportTable(){
+            $('#tbIndex').tableExport({ fileName: '外贸发货汇总', type: 'excel', escape: 'false' });
+        }
+
+        function RefreshTable(){
+            $('#tbIndex').bootstrapTable('refresh', {
+                query: getSearchParam(),
+                silent: true
+            });
+        }
+
+        $(function () {
+            $('#tbIndex').bootstrapTable(JSComm.initTable({
+                getParams: function getParams(params) {
+                    return Object.assign(params, getSearchParam());
+                },
+                columns: [
+                    {
+                        field: "GZBASE_YGBH",
+                        title: "员工工号",
+                    },
+                    {
+                        field: "GZBASE_YGXM",
+                        title: "员工姓名",
+                    },
+                    {
+                        field: "lsbmzd_bmmc",
+                        title: "所属部门",
+                    },
+                    {
+                        field: "GZBASE_XM005",
+                        title: "岗级",
+                    },
+                    {
+                        field: "GZBASE_XM006",
+                        title: "薪级",
+                    },
+                    {
+                        field: "GZBASE_XM007",
+                        title: "岗位绩效工资",
+                    },
+                    {
+                        field: "GZBASE_XM009",
+                        title: "工龄工资",
+                    },
+                    {
+                        field: "GZBASE_XM012",
+                        title: "月度考核奖",
+                    },
+                    {
+                        field: "GZBASE_XM016",
+                        title: "技能及新员工补贴",
+                    },
+                    {
+                        field: "GZBASE_XM037",
+                        title: "公司奖惩",
+                    },
+                    {
+                        field: "GZBASE_XM017",
+                        title: "综合奖励",
+                    },
+                    {
+                        field: "GZBASE_XM019",
+                        title: "电量及不可用时间",
+                    },
+                    {
+                        field: "GZBASE_XM020",
+                        title: "集团月度绩效",
+                    },
+                    {
+                        field: "GZBASE_XM022",
+                        title: "应发合计",
+                    },
+                    {
+                        field: "GZBASE_XM023",
+                        title: "基本养老",
+                    },
+                    {
+                        field: "GZBASE_XM024",
+                        title: "失业保险",
+                    },
+                    {
+                        field: "GZBASE_XM025",
+                        title: "医疗保险",
+                    },
+                    {
+                        field: "GZBASE_XM026",
+                        title: "公积金",
+                    },
+                    {
+                        field: "GZBASE_XM028",
+                        title: "年金",
+                    },
+                    {
+                        field: "GZBASE_XM029",
+                        title: "工会费",
+                    },
+                    {
+                        field: "GZBASE_XM003",
+                        title: "应交税金",
+                    },
+                    {
+                        field: "GZBASE_XM001",
+                        title: "实发合计",
+                    }
+                ],
+                pagination: false,
+                url: "@Url.Action("ListSalary")",
+            }));
+        });
+    </script>
+}

@@ -17,4 +17,7 @@ TaskWeb/SampleUtils/bin
 TaskWeb/SampleUtils/obj
 TaskWeb/TaskAPI/bin
 TaskWeb/TaskAPI/obj
+TaskWeb/WebReport/bin
+TaskWeb/WebReport/obj
 TaskWeb/UpgradeLog.htm
+TaskWeb/WebReport/WebReport.csproj.user

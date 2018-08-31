@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SQL>
+  <!-- 根据password, name获取User信息 -->
+  <!--<GetUserInfo>
+    <![CDATA[
+        SELECT
+          U.id,
+          name,
+          password,
+          nickName,
+          U.remarks,
+          U.isDeleted,
+          roleId,
+          R.roleName
+        FROM tbUser AS U
+        LEFT JOIN tbRole AS R
+          ON R.id = U.roleId
+        WHERE U.name = @name
+        AND U.[password] = @password AND U.isDeleted = 0
+    ]]>
+  </GetUserInfo>-->
+
+  <GetUserInfo>
+    <![CDATA[lc0089999.KHCX_Login]]>
+  </GetUserInfo>
+
+  <MustChangePassword>
+    <![CDATA[888888]]>
+  </MustChangePassword>
+
+  <!-- 新增User -->
+  <AddUserInfo>
+    <![CDATA[
+        INSERT INTO tbUser
+        (	name,
+	        [password],
+	        nickName,
+	        remarks,
+	        roleId)
+        VALUES
+        (	@name,
+	        @password,
+	        @nickName,
+	        @remarks,
+	        @roleId)
+    ]]>
+  </AddUserInfo>
+
+  <!-- 修改User -->
+  <UpdateUserInfo>
+    <![CDATA[
+        
+    ]]>
+  </UpdateUserInfo>
+
+
+  <ListUserPagination>
+    <![CDATA[
+        SELECT
+          ROW_NUMBER() OVER (ORDER BY A.id DESC) AS rowNo,
+	        A.id,
+	        name,
+	        nickName,
+	        A.remarks,
+	        roleId,
+	        B.roleName,
+	        A.isDeleted,
+	        password
+        FROM tbUser AS A
+        LEFT JOIN tbRole AS B
+	        ON B.id = A.roleId
+        WHERE @searchString IS NULL 
+        OR
+        name LIKE '%' + @searchString + '%'
+        OR
+        nickName LIKE '%' + @searchString + '%'
+        OR
+        B.roleName LIKE '%' + @searchString + '%'
+    ]]>
+  </ListUserPagination>
+</SQL>

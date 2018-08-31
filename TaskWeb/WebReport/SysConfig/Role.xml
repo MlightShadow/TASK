@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SQL>
+  <ListRolePagination>
+    <![CDATA[
+        SELECT ROW_NUMBER() OVER(ORDER BY id DESC) AS rowNo,
+            id,
+            roleName,
+            remarks,
+            isDeleted
+        FROM tbRole
+        WHERE
+        (
+            roleName LIKE '%' + @searchString + '%'
+            OR @searchString IS NULL
+        )
+    ]]>
+  </ListRolePagination>
+  </SQL>

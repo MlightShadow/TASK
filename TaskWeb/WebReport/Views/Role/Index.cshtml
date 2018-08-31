@@ -1,0 +1,295 @@
+﻿
+@{
+    ViewBag.Title = "角色管理";
+    Layout = "~/Views/Shared/_LayoutInner.cshtml";
+}
+
+@section styles{
+    @Styles.Render("~/treeView/css")
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <button type="button" class="btn btn-primary " onclick="editModel(-1)">添加</button>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="txtIndexSearch" onchange="RefreshTableForSearch('tbRole', 'txtIndexSearch');" placeholder="请输入角色名查询...">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" onclick="RefreshTableForSearch('tbRole', 'txtIndexSearch');">搜索</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table id="tbRole"></table>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="modalAddEdit" tabindex="-1" role="dialog" aria-labelledby="modalAddEditLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="modalAddEditLabel">添加系统角色</h4>
+                <input type="hidden" id="txtId" value="0" />
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">角色名</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtRoleName" onblur="CheckExist('RoleName', this, $('#txtId').val())" placeholder="角色名称">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-check" style="color:#0c0; font-size:14px"></i>
+                                        <i class="fa fa-times" style="color:#c00; font-size:14px"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">备注</label>
+                                <input type="text" class="form-control" id="txtRemarks" placeholder="备注">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="AddRole(this,'Add');" id="btnAdd">添加角色</button>
+                <button type="button" class="btn btn-primary" onclick="AddRole(this,'Edit');" id="btnEdit">编辑角色</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="modalPower" tabindex="-1" role="dialog" aria-labelledby="modalPowerLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="modalPowerLabel">权限配置</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtRoleId" value="">
+                <div id="tree"></div>
+
+                <div><span style="color:red">保存权限时间较长, 请耐心等待</span></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="savePowerData(this);">保存权限配置</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+@section scripts{
+    @Scripts.Render("~/treeView/js")
+    <script>
+
+        //获取数据权限数据
+        function getPowerData(id) {
+            $.ajax({
+                type: "Post",
+                url: "@Url.Action("TreePower","Role")",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (result) {
+                    $('#tree').treeview({ data: result, showCheckbox: true });
+                    //$('#tree').treeview('expandAll', { levels: 2, silent: true });
+                }
+            });
+        }
+
+        function savePowerData() {
+            $.ajax({
+                type: "Post",
+                url: "@Url.Action("SavePower","Role")",
+                data: {
+                    id: $("#txtRoleId").val(),
+                    list: JSON.stringify($('#tree').treeview('getChecked'))
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.res == 1) {
+                        alert(result.msg);
+                        //重新刷新列表
+                        //$("#gridList").trigger("reloadGrid");
+                        //隐藏模态框
+                        $("#modalPower").modal('hide');
+                    } else {
+                        alert(result.msg);
+                    }
+                }
+        });
+
+        }
+
+        //添加角色
+        function AddRole(btn, type) {
+            if (type == 'Add') {
+                url= "@Url.Action("AddRole")"
+            } else {
+                url="@Url.Action("EditRole")"
+            }
+            $(btn).attr('disabled', true);
+            var roleName = $("#txtRoleName").val();
+            if (roleName == "") {
+                alert("角色名不能为空");
+                $(btn).attr('disabled', false);
+                return false;
+            }
+            $.ajax({
+                type: "Post",
+                url: url,
+                data: {
+                    id:$("#txtId").val(),
+                    roleName: roleName,
+                    remarks: $("#txtRemarks").val()
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.res == 1) {
+                        alert(result.msg);
+                        RefreshTable();
+                        $("#modalAddEdit").modal('hide');
+                    } else {
+                        alert(result.msg);
+                    }
+                    $(btn).attr('disabled', false);
+                }
+            });
+
+        }
+
+        function popPower(id) {
+            $("#txtRoleId").val(id);
+            getPowerData(id);
+
+            $("#modalPower").modal('show');
+        }
+
+        //保存权限数据
+        function savePower() {
+            if (confirm("确认要重置账号密码？")) {
+                $.ajax({
+                    url: '@Url.Action("ResetPassword")',
+                    type: "POST",
+                    dataType: "json",
+                    data: JSON.stringify({ id: $("#hidResetId").val(), password: $("#txtResetPassword").val() }),
+                    contentType: "application/json, charset=utf-8",
+                    success: function (res) {
+                        alert(res.msg);
+                        $("#txtResetPassword").val("");
+                        $("#mdlResetPassword").modal('hide');
+                    }
+                });
+            }
+        }
+
+        $(function () {
+            $('#tbRole').bootstrapTable(JSComm.initTable({
+                getParams: function getParams(params) {
+                    return tableSearchParam(params, 'txtIndexSearch');
+                },
+                sidePagination: "server",
+                url: "@Url.Action("ListRolePagination")",
+                columns: [
+                    {
+                        field: "id",
+                        title: "",
+                        visible:false
+                    },
+                    {
+                        field: "roleName",
+                        title: "角色名"
+                    },
+                    {
+                        field: "remarks",
+                        title: "备注"
+                    },
+                    {
+                        field: "isDeleted",
+                        title: "账号状态",
+                        formatter: function (value, row, index) {
+                            return value == false ? "启用" : "禁用"
+                        }
+                    },
+                    {
+                        field: "operation",
+                        title: "操作",
+                        formatter: function (value, row, index) {
+                            return row.isDeleted ? '<button type="button" class="btn btn-info btn-xs" onclick="DeleteOrRestoreData(this,' + row.id + ', \'restore\')">恢复</button>' : ("<button type=\"button\" class=\"btn btn-primary\" onclick=\"popPower(" + row.id + ");\">权限管理</button>&nbsp;<button type=\"button\" class=\"btn btn-warning\" onclick=\"editModel(" + index + ");\">编辑</button>" +'&nbsp;'+ '<button type="button" class="btn btn-danger btn-xs" onclick="DeleteOrRestoreData(this,' + row.id + ', \'delete\')">删除</button>')
+                        }
+                    }
+                ], pagination: true
+            }));
+            checkIconSetFalse('txtRoleName');
+        });
+        //删除或恢复数据 type = delete/restore
+        function DeleteOrRestoreData(btn, id, optype) {
+            $(btn).attr('disabled', true);
+            var url = ''
+            if (optype == 'delete') {
+                url = '@Url.Action("DeleteData")';
+            }
+            else {
+                url = '@Url.Action("RestoreData")';
+            }
+            $.ajax({
+                type: "Post",
+                url: url,
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.res == 1) {
+                        alert(result.msg);
+                        //重新刷新列表
+                        RefreshTable();
+                    } else {
+                        alert(result.msg);
+                    }
+                    $(btn).attr('disabled', false);
+                }
+            });
+        }
+        function RefreshTable() {
+            RefreshTableForSearch('tbRole', 'txtIndexSearch');
+        }
+        //编辑时初始化模态
+        function editModel(index) {
+            if (index != -1) {
+                checkIconSetTrue('txtRoleName');
+                var rows = $('#tbRole').bootstrapTable('getData');
+                $("#txtId").val(rows[index].id);
+                $("#txtRoleName").val(rows[index].roleName);
+                $("#txtRemarks").val(rows[index].remarks);
+                $("#btnAdd").hide();
+                $("#btnEdit").show();
+                $("#modalAddEdit").modal('show');
+            } else {
+                checkIconSetFalse('txtRoleName');
+                $("#txtId").val(0);
+                $("#txtRoleName").val('');
+                $("#txtRemarks").val('');
+                $("#btnAdd").show();
+                $("#btnEdit").hide();
+                $("#modalAddEdit").modal('show');
+            }
+
+        }
+    </script>
+}

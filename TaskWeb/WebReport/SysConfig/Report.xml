@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SQL>
+  <ListSalary>
+    <![CDATA[
+    SELECT
+	    GZBASE_YGBH, --员工工号,
+	    GZBASE_YGXM, --员工姓名,
+	    --lsbmzd_bmmc, --所属部门,
+	    GZBASE_XM005, --岗级,
+	    GZBASE_XM006, --薪级,
+	    GZBASE_XM007, --岗位绩效工资,
+	    GZBASE_XM009, --工龄工资,
+	    GZBASE_XM012, --月度考核奖,
+	    GZBASE_XM016, --技能及新员工补贴,
+	    GZBASE_XM037, --公司奖惩,
+	    GZBASE_XM017, --综合奖励,
+	    GZBASE_XM019, --电量及不可用时间,
+	    GZBASE_XM020, --集团月度绩效,
+	    GZBASE_XM022, --应发合计,
+	    GZBASE_XM023, --基本养老,
+	    GZBASE_XM024, --失业保险,
+	    GZBASE_XM025, --医疗保险,
+	    GZBASE_XM026, --公积金,
+	    GZBASE_XM028, --年金,
+	    GZBASE_XM029, --工会费,
+	    GZBASE_XM003, --应交税金,
+	    GZBASE_XM001 --实发合计
+    FROM gzbase_bak
+    --LEFT JOIN lsbmzd
+	    --ON GZBASE_BMBH = lsbmzd_bmbh
+    --WHERE gzbase_date = '201804' AND GZBASE_fz01 = '320106196801210813'
+    ]]>
+  </ListSalary>
+  <ListIndex_Custom>
+    <![CDATA[
+        EXEC lc0089999.KHCX_KHDDGZ	@yh,
+							        @kssj,
+                      @jssj,
+							        @khddbh,
+							        @zt
+    ]]>
+  </ListIndex_Custom>
+</SQL>

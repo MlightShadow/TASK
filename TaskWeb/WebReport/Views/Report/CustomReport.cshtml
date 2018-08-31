@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "Index_Custom";
+    Layout = "~/Views/Shared/_LayoutInner.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd">
+                    <input class="form-control" id="txtBeginTime" type="text" placeholder="起始时间" readonly>
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd">
+                    <input class="form-control" id="txtEndTime" type="text" placeholder="截止时间" readonly>
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <input type="text" class="form-control" id="txtNo" placeholder="订单编号">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <select class="form-control" id="ddlType">
+                    <option selected>全部</option>
+                    <option>已发货</option>
+                    <option>未发货</option>
+                </select>
+            </div>
+
+        </div>
+        <br />
+        <div class="row text-right">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <a class="btn btn-warning" onclick="Reset();">重置</a>
+                <a class="btn btn-info" onclick="InitData();">查询</a>
+
+                <a class="btn btn-primary" onclick="ExportTable();">导出</a>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table id="tbIndex"></table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        function getSearchParam() {
+            return {
+                zt: $('#ddlType').val().trim(),
+                khddbh: $('#txtNo').val().trim(),
+                kssj: $('#txtBeginTime').val().trim(),
+                jssj: $('#txtEndTime').val().trim(),
+                sql: 'ListIndex_Custom',
+            }
+        }
+
+        function ExportTable(){
+            $('#tbIndex').tableExport({ fileName: '报表', type: 'excel', escape: 'false' });
+        }
+
+        function RefreshTable(){
+            $('#tbIndex').bootstrapTable('refresh', {
+                query: getSearchParam(),
+                silent: true
+            });
+        }
+
+        function InitData() {
+            Postor.Post(
+                    '@Url.Action("ListCustomReport")',
+                    getSearchParam(),
+                    function (res) {
+
+                        var data = JSON.parse(res);
+
+                        var row = data[0]
+                        for (var j in row) {
+                            var column = {
+                                field: j,
+                                title: j
+                            }
+                            option.columns.push(column);
+                            
+                        }
+                        option.data = data;
+
+                        $('#tbIndex').bootstrapTable('refreshOptions', JSComm.initTable(option));
+                    }
+                );
+        }
+
+        var option = {
+            columns: [],
+            data: [],
+            pagination: true
+        }
+
+
+        $(function () {
+            $('#txtBeginTime').val(getTodayPlus(-700))
+            $('#txtEndTime').val(getTodayPlus(0))
+            $('#tbIndex').bootstrapTable(JSComm.initTable(option));
+            InitData();
+        });
+    </script>
+}

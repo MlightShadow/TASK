@@ -1,0 +1,338 @@
+﻿
+@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/Shared/_LayoutInner.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <button type="button" class="btn btn-primary " onclick="editModel(-1)">添加</button>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="txtIndexSearch" onchange="RefreshTableForSearch('tbContacts', 'txtIndexSearch');" placeholder="请输入登录名/别名/角色查询...">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" onclick="RefreshTableForSearch('tbContacts', 'txtIndexSearch');">搜索</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table id="tbContacts"></table>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">系统用户</h4>
+                <input type="hidden" id="txtId" value="0" />
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">账号</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtName" onblur="CheckExist('UserName', this, $('#txtId').val())" placeholder="登陆后台系统使用的账号">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-check" style="color:#0c0; font-size:14px"></i>
+                                        <i class="fa fa-times" style="color:#c00; font-size:14px"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">用户名</label>
+                                <input type="text" class="form-control" id="txtNickName" placeholder="账号登陆时显示的名称">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label for="lastname" class="control-label">用户角色</label>
+                                <select class="form-control" id="ddlRole">
+                                    <option selected value="0">请选择, 角色决定账号权限</option>
+                                    @foreach (WebReport.Entity.User.RoleDto item in ViewBag.RoleList)
+                                    {
+                                        <option value="@item.id">@item.roleName</option>
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">密码</label>
+                                <input type="password" class="form-control" id="txtPassword" placeholder="登陆后台系统使用的密码">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">重新确认</label>
+                                <input type="password" class="form-control" id="txtPassword2" placeholder="重新确认密码,防止输入错误">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="AddUser('Add',this);" id="btnAdd">添加用户</button>
+                <button type="button" class="btn btn-primary" onclick="AddUser('Edit',this);" id="btnEdit">编辑用户</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="mdlResetPassword" tabindex="-1" role="dialog" aria-labelledby="mdlblResetPassword" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="mdlblResetPassword">重置密码</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="lastname" class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="txtResetPassword" placeholder="重置登陆后台系统使用的密码">
+                            <input type="hidden" value="0" id="hidResetId">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="resetPassword(this);">重置密码</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+@section scripts{
+    <script>
+        var nameExist = true;
+        //判断用户账号是否存在
+        function UserExist() {
+            var name = $("#txtName").val();
+            if (name != "") {
+                $.ajax({
+                    type: "Post",
+                    url: "@Url.Action("CheckUserExistByName", "User")",
+                    data: {
+                        name: name
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.res == 1) {
+                            nameExist = false;
+                        }
+                        alert(data.msg);
+                    }
+                });
+            }
+        }
+        //修改密码时初始化模态
+        function popPassword(id) {
+            $("#hidResetId").val(id);
+            $("#mdlResetPassword").modal('show');
+        }
+        //重置密码操作
+        function resetPassword(btn) {
+            $(btn).attr('disabled', true);
+            var password = $("#txtResetPassword").val();
+            if (password == "") {
+                alert("密码不能为空");
+                return false;
+            }
+            $.ajax({
+                dataType: 'json',
+                type: 'post',
+                url: '@Url.Action("DoReset")',
+                data: {
+                    id: $("#hidResetId").val(),
+                    password: $("#txtResetPassword").val(),
+                },
+                success: function (result) {
+                    if (result.res == 1) {
+                        alert(result.msg);
+                    } else {
+                        alert(result.msg);
+                    }
+                    $(btn).attr('disabled', false);
+                }
+            })
+        }
+        //编辑时初始化模态
+        function editModel(index) {
+            if (index != -1) {
+                checkIconSetTrue('txtName');
+                var rows = $('#tbContacts').bootstrapTable('getData');
+                $("#txtId").val(rows[index].id);
+                $("#txtName").val(rows[index].name);
+                $("#txtNickName").val(rows[index].nickName);
+                $("#ddlRole").val(rows[index].roleId);
+                $("#txtPassword").val(rows[index].password);
+                $("#txtPassword2").val(rows[index].password);
+                $("#btnAdd").hide();
+                $("#btnEdit").show();
+                $("#myModal").modal('show');
+            } else {
+                checkIconSetFalse('txtName');
+                $("#txtId").val(0);
+                $("#txtName").val('');
+                $("#txtNickName").val('');
+                $("#ddlRole").val('');
+                $("#txtPassword").val('');
+                $("#txtPassword2").val('');
+                $("#btnAdd").show();
+                $("#btnEdit").hide();
+                $("#myModal").modal('show');
+            }
+
+        }
+        //添加用户账号
+        function AddUser(type, btn) {
+            $(btn).attr('disabled', true);
+            var id = $("#txtId").val();
+            var name = $("#txtName").val();
+            var nickName = $("#txtNickName").val();
+            var roleId = $("#ddlRole").val();
+            var password = $("#txtPassword").val();
+            var password2 = $("#txtPassword2").val();
+            var url = "";
+            if (type == 'Add') {
+                url = "@Url.Action("AddUser","User")"
+            } else {
+                url = "@Url.Action("EditUser","User")"
+            }
+            if (name == "") {
+                alert("账号不能为空");
+                $(btn).attr('disabled', false);
+                return false;
+            }
+            if (password == "") {
+                alert("密码不能为空");
+                $(btn).attr('disabled', false);
+                return false;
+            }
+            if (password2 != password) {
+                alert("两次输入密码不一致");
+                $(btn).attr('disabled', false);
+                return false;
+            }
+            if (roleId == "0") {
+                alert("请选择一个角色赋予账号");
+                $(btn).attr('disabled', false);
+                return false;
+            }
+            $.ajax({
+                type: "Post",
+                url: url,
+                data: {
+                    id: id,
+                    name: name,
+                    nickName: nickName,
+                    password: password,
+                    roleId: roleId
+                },
+                dataType: "json",
+                success: function (res) {
+                    alert(res.msg);
+                    $("#myModal").modal('hide');
+                    $(btn).attr('disabled', false);
+                    RefreshTable();
+                }
+            });
+        }
+
+        $(function () {
+            $('#tbContacts').bootstrapTable(JSComm.initTable({
+                getParams: function getParams(params) {
+                    return tableSearchParam(params, 'txtIndexSearch');
+                },
+                sidePagination: "server",
+                url: "@Url.Action("ListUserPagination")",
+                columns: [
+                    {
+                        field: "name",
+                        title: "登录名"
+                    },
+                    {
+                        field: "nickName",
+                        title: "别名"
+                    },
+                    {
+                        field: "roleName",
+                        title: "角色"
+                    },
+                    {
+                        field: "password",
+                        title: "密码",
+                        visible: false
+                    },
+                    {
+                        field: "isDeleted",
+                        title: "账号状态",
+                        formatter: function (value, row, index) {
+                            return row.isDeleted == false ? "正常" : "冻结"
+                        }
+                    },
+                    {
+                        field: "operation",
+                        title: "操作",
+                        formatter: function (value, row, index) {
+                            return row.isDeleted ? '<button type="button" class="btn btn-info btn-xs" onclick="DeleteOrRestoreData(this,' + row.id + ', \'restore\')">恢复</button>' : ("<button type=\"button\" class=\"btn btn-primary\" onclick=\"popPassword(" + row.id + ");\">重置密码</button>&nbsp;<button type=\"button\" class=\"btn btn-warning\" onclick=\"editModel(" + index + ");\">编辑</button>" + '&nbsp;' + '<button type="button" class="btn btn-danger btn-xs" onclick="DeleteOrRestoreData(this,' + row.id + ', \'delete\')">删除</button>')
+                        }
+                    }
+                ], pagination: true
+            }));
+            checkIconSetFalse('txtName');
+        });
+        //删除或恢复数据 type = delete/restore
+        function DeleteOrRestoreData(btn, id, optype) {
+            $(btn).attr('disabled', true);
+            var url = ''
+            if (optype == 'delete') {
+                url = '@Url.Action("DeleteData")';
+            }
+            else {
+                url = '@Url.Action("RestoreData")';
+            }
+            $.ajax({
+                type: "Post",
+                url: url,
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.res == 1) {
+                        alert(result.msg);
+                        //重新刷新列表
+                        RefreshTable();
+                    } else {
+                        alert(result.msg);
+                    }
+                    $(btn).attr('disabled', false);
+                }
+            });
+        }
+        function RefreshTable() {
+            RefreshTableForSearch('tbContacts', 'txtIndexSearch')
+        }
+    </script>
+}

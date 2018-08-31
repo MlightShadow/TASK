@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/base/css")
+    @Styles.Render("~/bootstrapTable/css")
+    @Styles.Render("~/datetimePicker/css")
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    @RenderBody()
+    @Scripts.Render("~/base/js")
+    @Scripts.Render("~/bootstrapTable/js")
+    @Scripts.Render("~/datetimePicker/js")
+    <script>
+            $('.form_date').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+            });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
