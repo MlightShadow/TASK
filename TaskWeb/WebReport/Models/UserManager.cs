@@ -14,28 +14,9 @@ namespace WebReport.Models
             SQLExecuteParam param = new SQLExecuteParam();
             param.sql = XMLHelper.GetNodeString("User", "SQL/GetUserInfo");
 
-
-            CommDAL DBAgent = new CommDAL(ConfigurationManager.ConnectionStrings["DALconnect2"].ConnectionString);
-            param.procedureParam.Add("@yh", user.name, DbType.String, direction: ParameterDirection.Input);
-            param.procedureParam.Add("@mm", user.password, DbType.String, direction: ParameterDirection.Input);
-            param.procedureParam.Add("@f", 0, DbType.Int32, direction: ParameterDirection.Output);
-            param.procedureParam.Add("@result", "", DbType.String, direction: ParameterDirection.Output);
-
-            DBAgent.SQLExecuteProcedure(param);
-            int f = param.procedureParam.Get<int>("@f");
-            string result = param.procedureParam.Get<string>("@result");
-            
-            if (f == 1) {
-                SessionDto sessionDto = new SessionDto();
-                sessionDto.name = user.name;
-                sessionDto.password = user.password;
-                return sessionDto;
-            }
-            return null;
-
-            //user.password = MD5Helper.MD5Encrypt(user.password);
-            //param.obj = user;
-            //return DBAgent.SQLExecuteSingleData<SessionDto>(param);
+            user.password = MD5Helper.MD5Encrypt(user.password);
+            param.obj = user;
+            return DBAgent.SQLExecuteSingleData<SessionDto>(param);
         }
 
         public int SaveUser(UserDto user)

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SQL>
   <!-- 根据password, name获取User信息 -->
-  <!--<GetUserInfo>
+  <GetUserInfo>
     <![CDATA[
         SELECT
           U.id,
@@ -18,11 +18,11 @@
         WHERE U.name = @name
         AND U.[password] = @password AND U.isDeleted = 0
     ]]>
-  </GetUserInfo>-->
-
-  <GetUserInfo>
-    <![CDATA[lc0089999.KHCX_Login]]>
   </GetUserInfo>
+
+  <!--<GetUserInfo>
+    <![CDATA[lc0089999.KHCX_Login]]>
+  </GetUserInfo>-->
 
   <MustChangePassword>
     <![CDATA[888888]]>
