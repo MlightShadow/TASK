@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -29,15 +29,5 @@ export default {
   color: #2c3e50;
   margin-bottom: 50px;
   margin-top: 40px;
-}
-
-.mu-appbar{
-  position:fixed;
-  top:0px;
-}
-
-.mu-bottom-nav{
-  position:fixed;
-  bottom:0px;
 }
 </style>

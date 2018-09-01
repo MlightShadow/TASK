@@ -10,3 +10,10 @@
         </mu-appbar>
     </div>
 </template>
+
+<style scoped>
+.mu-appbar{
+  position:fixed;
+  top:0px;
+}
+</style>

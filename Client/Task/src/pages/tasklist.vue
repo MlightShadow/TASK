@@ -1,80 +1,32 @@
 <template>
   <div>
       <mu-paper :z-depth="1" class="demo-list-wrap">
-        <mu-list textline="two-line" >
-            <mu-list-item avatar :ripple="false" button @click="openFullscreenDialog">
-            <mu-list-item-content>
-                <mu-list-item-title>Ali Connors</mu-list-item-title>
-                <mu-list-item-sub-title style="color: rgba(0, 0, 0, .87)">Brunch this weekend?</mu-list-item-sub-title>
-                <mu-list-item-sub-title>
-                I'll be in your neighborhood doing errands this weekend. Do you want to hang out?
-                </mu-list-item-sub-title>
-            </mu-list-item-content>
-            <mu-list-item-action >
-                <mu-list-item-after-text>15 min</mu-list-item-after-text> 
-                <mu-list-item-after-text>赵一二三</mu-list-item-after-text> 
-            </mu-list-item-action>
-            </mu-list-item>
-            <mu-divider></mu-divider>
-            <mu-list-item avatar :ripple="false" button>
-            <mu-list-item-content>
-                <mu-list-item-title>me, Scrott, Jennifer</mu-list-item-title>
-                <mu-list-item-sub-title style="color: rgba(0, 0, 0, .87)">Summer BBQ</mu-list-item-sub-title>
-                <mu-list-item-sub-title>
-                Wish I could come, but I'm out of town this weekend.
-                </mu-list-item-sub-title>
-            </mu-list-item-content>
-            <mu-list-item-action >
-                <mu-list-item-after-text>2 hr</mu-list-item-after-text>
-                <mu-checkbox color="yellow700" v-model="selects" value="value2"  uncheck-icon="star_border" checked-icon="star"></mu-checkbox>
-            </mu-list-item-action>
-            </mu-list-item>
-            <mu-divider></mu-divider>
-            <mu-list-item avatar :ripple="false" button>
-            <mu-list-item-content>
-                <mu-list-item-title>Sandra Adams</mu-list-item-title>
-                <mu-list-item-sub-title style="color: rgba(0, 0, 0, .87)">Oui oui</mu-list-item-sub-title>
-                <mu-list-item-sub-title>
-                Do you have Paris recommendations? Have you ever been?
-                </mu-list-item-sub-title>
-            </mu-list-item-content>
-            <mu-list-item-action >
-                <mu-list-item-after-text>6 hr</mu-list-item-after-text>
-                <mu-checkbox color="yellow700" v-model="selects" value="value3"  uncheck-icon="star_border" checked-icon="star"></mu-checkbox>
-            </mu-list-item-action>
-            </mu-list-item>
-            <mu-divider></mu-divider>
-            <mu-list-item avatar :ripple="false" button>
-            <mu-list-item-content>
-                <mu-list-item-title>Trevor Hansen</mu-list-item-title>
-                <mu-list-item-sub-title style="color: rgba(0, 0, 0, .87)">Birthday gift</mu-list-item-sub-title>
-                <mu-list-item-sub-title>
-                Have any ideas about what we should get Heidi for her
-                </mu-list-item-sub-title>
-            </mu-list-item-content>
-            <mu-list-item-action>
-                <mu-list-item-after-text>12 hr</mu-list-item-after-text>
-                <mu-checkbox color="yellow700" v-model="selects" value="value4"  uncheck-icon="star_border" checked-icon="star"></mu-checkbox>
-            </mu-list-item-action>
-            </mu-list-item>
-            <mu-divider></mu-divider>
-            <mu-list-item avatar :ripple="false" button>
-            <mu-list-item-content>
-                <mu-list-item-title>Britta Holt</mu-list-item-title>
-                <mu-list-item-sub-title style="color: rgba(0, 0, 0, .87)">Recipe to try</mu-list-item-sub-title>
-                <mu-list-item-sub-title>
-                We should eat this: Grate, Squash, Corn, and tomatillo Tacos.
-                </mu-list-item-sub-title>
-            </mu-list-item-content>
-            <mu-list-item-action >
-                <mu-list-item-after-text>18hr</mu-list-item-after-text>
-                <mu-checkbox color="yellow700" v-model="selects" value="value5"  uncheck-icon="star_border" checked-icon="star"></mu-checkbox>
-            </mu-list-item-action>
-            </mu-list-item>
+        <mu-list textline="two-line">
+            <div v-for="item in items">
+                <mu-divider></mu-divider>
+                <mu-list-item  avatar :ripple="false" button @click="showDetail(item)">
+                <mu-list-item-content>
+                    <mu-list-item-title>{{ item.title }}</mu-list-item-title>
+                    <mu-list-item-sub-title style="color: rgba(0, 0, 0, .87)">
+                    {{ item.description }}
+                    </mu-list-item-sub-title>
+                    <mu-list-item-sub-title >任务类型: {{ item.type }}</mu-list-item-sub-title>
+
+                </mu-list-item-content>
+                <mu-list-item-action >
+                    <mu-list-item-after-text>
+                        {{ item.time }}
+                        </mu-list-item-after-text>
+                    <mu-list-item-after-text>
+                        负责人: {{ item.master }}
+                        </mu-list-item-after-text>
+                </mu-list-item-action>
+                </mu-list-item>
+            </div>
         </mu-list>
     </mu-paper>
 
-    <detaildialog :openFullscreen.sync="openFullscreen"/>
+    <detaildialog :isShow.sync="isShow" :showItem.sync="showItem"/>
   </div>
 </template>
 
@@ -84,16 +36,33 @@ export default {
   name: 'tasklist',
   data () {
     return {
-      selects: [],
-      openFullscreen: false
+      items: [
+        {
+          title: '任务一',
+          description: '这是个简单的任务',
+          type: '开发',
+          time: '2018-9-1 21:31',
+          master: '张三'
+        },
+        {
+          title: '复杂的任务',
+          description: '简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述',
+          type: '调研',
+          time: '2018-9-1 21:31',
+          master: '王二麻子'
+        }
+      ],
+      isShow: false,
+      showItem: {}
     }
   },
   components: {
     detaildialog
   },
   methods: {
-    openFullscreenDialog: function () {
-      this.openFullscreen = true
+    showDetail: function (item) {
+      this.showItem = item
+      this.isShow = true
     }
   }
 }
@@ -104,5 +73,9 @@ export default {
 .demo-list-wrap {
   width: 100%;
   overflow: hidden;
+}
+
+.mu-item-action {
+  min-width: 100px;
 }
 </style>
