@@ -1,6 +1,6 @@
 <template>
   <div>
-          <mu-flex justify-content="center">
+      <mu-flex justify-content="center">
         <mu-button style="width:95%; margin-top:6px;margin-bottom:6px;" color="green">添加资料</mu-button>
       </mu-flex>
         <mu-expansion-panel>

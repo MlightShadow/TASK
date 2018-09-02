@@ -16,12 +16,14 @@
 
 <script>
 import aematerial from './../components/aematerial.vue'
+import aetask from './../components/aetask.vue'
 export default {
   name: 'itemdialog',
   components: {
-      aematerial
+    aematerial,
+    aetask
   },
-  data() {
+  data () {
     return {
       width: (window.innerWidth) + 'px',
       height: (window.innerHeight) + 'px'
@@ -47,9 +49,4 @@ export default {
   position:fixed;
   top:0px;
 }
-
-
 </style>
-
-
-

@@ -1,43 +1,28 @@
 <template>
   <div>
   <mu-form :model="form" :label-position="'right'" label-width="100">
-    <mu-form-item prop="input" label="Input">
+    <mu-form-item prop="input" label="姓名">
       <mu-text-field v-model="form.input"></mu-text-field>
     </mu-form-item>
-    <mu-form-item prop="select" label="Select">
-      <mu-select v-model="form.select">
-        <mu-option v-for="option,index in options" :key="option" :label="option" :value="option"></mu-option>
-      </mu-select>
+    <mu-form-item prop="date" label="生日">
+      <mu-date-input v-model="form.date" type="date" actions></mu-date-input>
     </mu-form-item>
-    <mu-form-item prop="date" label="Date Time">
-      <mu-date-input v-model="form.date" type="dateTime" actions></mu-date-input>
+    <mu-form-item prop="radio" label="性别">
+      <mu-radio v-model="form.radio" value="male" label="男"></mu-radio>
+      <mu-radio v-model="form.radio" value="female" label="女"></mu-radio>
     </mu-form-item>
-    <mu-form-item prop="radio" label="Radio">
-      <mu-radio v-model="form.radio" value="male" label="Male"></mu-radio>
-      <mu-radio v-model="form.radio" value="female" label="Female"></mu-radio>
-    </mu-form-item>
-    <mu-form-item prop="checkbox" label="Checkbox">
-      <mu-checkbox v-model="form.checkbox" value="eat" label="Eat"></mu-checkbox>
-      <mu-checkbox v-model="form.checkbox" value="sleep" label="Sleep"></mu-checkbox>
-      <mu-checkbox v-model="form.checkbox" value="run" label="Run"></mu-checkbox>
-      <mu-checkbox v-model="form.checkbox" value="movie" label="Movie"></mu-checkbox>
-    </mu-form-item>
-    <mu-form-item prop="switch" label="Switch">
-      <mu-switch v-model="form.switch"></mu-switch>
-    </mu-form-item>
-    <mu-form-item prop="slider" label="Slider">
-      <mu-slider v-model="form.slider"></mu-slider>
-    </mu-form-item>    <mu-form-item prop="slider" label="Slider">
-      <mu-slider v-model="form.slider"></mu-slider>
-    </mu-form-item>
-    <mu-form-item prop="textarea" label="Textarea">
+    <mu-form-item prop="textarea" label="备注">
       <mu-text-field multi-line :rows="3" :rows-max="6" v-model="form.textarea"></mu-text-field>
+    </mu-form-item>
+    <mu-form-item label="尺寸附件">
+      <fileupload />
     </mu-form-item>
   </mu-form>
   </div>
 </template>
 
 <script>
+import fileupload from './../components/fileupload.vue'
 export default {
   name: 'aematerial',
   data () {
@@ -58,6 +43,9 @@ export default {
         textarea: ''
       }
     }
+  },
+  components: {
+    fileupload
   }
 }
 </script>
