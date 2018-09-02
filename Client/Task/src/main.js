@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
-import '_material-design-icons@3.0.1@material-design-icons/iconfont/material-icons.css'
+import 'material-design-icons/iconfont/material-icons.css'
 
 Vue.config.productionTip = false
 Vue.use(MuseUI)
