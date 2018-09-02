@@ -1,10 +1,13 @@
 <template>
   <div>
+      <mu-flex justify-content="center">
+        <mu-button style="width:95%; margin-top:6px;" color="green">添加任务</mu-button>
+      </mu-flex>
       <mu-paper :z-depth="1" class="demo-list-wrap">
         <mu-list textline="two-line">
-            <div v-for="item in items">
+            <div  v-for="item in items" :key="item.id">
                 <mu-divider></mu-divider>
-                <mu-list-item  avatar :ripple="false" button @click="showDetail(item)">
+                <mu-list-item button :ripple="true" @click="showDetail(item)">
                 <mu-list-item-content>
                     <mu-list-item-title>{{ item.title }}</mu-list-item-title>
                     <mu-list-item-sub-title style="color: rgba(0, 0, 0, .87)">
@@ -26,18 +29,19 @@
         </mu-list>
     </mu-paper>
 
-    <detaildialog :isShow.sync="isShow" :showItem.sync="showItem"/>
+    <itemdialog :isShow.sync="isShow" :showItem.sync="showItem"/>
   </div>
 </template>
 
 <script>
-import detaildialog from './../components/detail_dialog.vue'
+import itemdialog from './../components/itemdialog.vue'
 export default {
   name: 'tasklist',
   data () {
     return {
       items: [
         {
+          id: 1,
           title: '任务一',
           description: '这是个简单的任务',
           type: '开发',
@@ -45,6 +49,7 @@ export default {
           master: '张三'
         },
         {
+          id: 2,
           title: '复杂的任务',
           description: '简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述简述',
           type: '调研',
@@ -57,7 +62,7 @@ export default {
     }
   },
   components: {
-    detaildialog
+    itemdialog
   },
   methods: {
     showDetail: function (item) {
