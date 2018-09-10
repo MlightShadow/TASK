@@ -2,7 +2,7 @@
   <div>
   <mu-card style="width: 100%; margin: 0 auto;">
     <mu-card-media title="公告" sub-title="公告简述" style="max-height:200px; overflow: hidden">
-      <img src="./../assets/logo.png" >
+      <img src="./../assets/notice.jpg" >
     </mu-card-media>
   </mu-card>
 

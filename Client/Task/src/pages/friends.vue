@@ -5,7 +5,7 @@
     <mu-list-item avatar :ripple="true" button>
       <mu-list-item-action>
         <mu-avatar>
-          <img src="">
+          <img src="./../assets/priest.jpg">
         </mu-avatar>
       </mu-list-item-action>
       <mu-list-item-content>
@@ -19,7 +19,7 @@
     <mu-list-item :ripple="false" button>
       <mu-list-item-action>
         <mu-avatar>
-          <img src="">
+          <img src="./../assets/mage.jpg">
         </mu-avatar>
       </mu-list-item-action>
       <mu-list-item-content>
@@ -34,7 +34,7 @@
     <mu-list-item avatar :ripple="false" button>
       <mu-list-item-action>
         <mu-avatar>
-          <img src="">
+          <img src="./../assets/hs.jpg">
         </mu-avatar>
       </mu-list-item-action>
       <mu-list-item-content>
@@ -42,21 +42,6 @@
         <mu-list-item-sub-title>
           <span style="color: rgba(0, 0, 0, .87)">去打游戏啊</span><br/>
           周末一起 LOL
-        </mu-list-item-sub-title>
-      </mu-list-item-content>
-    </mu-list-item>
-    <mu-divider></mu-divider>
-    <mu-list-item avatar :ripple="false" button>
-      <mu-list-item-action>
-        <mu-avatar>
-          <img src="">
-        </mu-avatar>
-      </mu-list-item-action>
-      <mu-list-item-content>
-        <mu-list-item-title>LOL</mu-list-item-title>
-        <mu-list-item-sub-title>
-          <span style="color: rgba(0, 0, 0, .87)">哇去</span><br/>
-          实在编不下去，这就是个demo
         </mu-list-item-sub-title>
       </mu-list-item-content>
     </mu-list-item>
