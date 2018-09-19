@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     fetchItem: function () {
-      this.$axios.get('api/values/1',{}, response => {
+      this.$axios.get('api/values/1', {}, response => {
         console.log(JSON.stringify(response))
 
         // if (response.status >= 200 && response.status < 300) {
