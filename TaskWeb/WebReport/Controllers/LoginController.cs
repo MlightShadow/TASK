@@ -15,7 +15,7 @@ namespace WebReport.Controllers
 
         public JsonResult DoLogin(UserDto user)
         {
-            bool powerFlag = false;
+            bool powerFlag = true;
 
             SessionDto sessionDto = new SessionDto();
             sessionDto = userManager.GetUserInfo(user);
